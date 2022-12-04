@@ -1,3 +1,21 @@
 ﻿@page "/"
+@inject HttpClient http
 
 <h1>Hello, world!</h1>
+<p>@this.message</p>
+
+@code {
+    private string message = "loading...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            this.message = await this.http.GetStringAsync("/api/Function1") ?? "Server unavailable";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
+}
